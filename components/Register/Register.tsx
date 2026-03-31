@@ -1,18 +1,18 @@
+"use client"
+
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { useAuth } from "../contexts/AuthContext";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
+import { PenSquare } from "lucide-react";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
-import { PenSquare } from "lucide-react";
-import { toast } from "sonner";
+} from "../ui/card";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -20,8 +20,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
-  const navigate = useNavigate();
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,15 +37,15 @@ export default function Register() {
 
     setLoading(true);
 
-    try {
-      await register(email, username, password);
-      toast.success("Account created successfully!");
-      navigate("/");
-    } catch (error) {
-      toast.error("Registration failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    // try {
+    //   await register(email, username, password);
+    //   toast.success("Account created successfully!");
+    //   navigate("/");
+    // } catch (error) {
+    //   toast.error("Registration failed. Please try again.");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -132,7 +131,7 @@ export default function Register() {
                     </p>
                     <Button
                       type="submit"
-                      className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                      className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                       disabled={loading}
                     >
                       {loading ? "Creating account..." : "Sign Up"}
@@ -142,7 +141,7 @@ export default function Register() {
 
                 <div className="mt-6 text-center">
                   <Link
-                    to="/login"
+                    href="/"
                     className="text-blue-600 hover:underline font-medium"
                   >
                     Already have an account?
