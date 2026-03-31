@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const loginZodSchema = z.object({
+export const loginValidationSchema = z.object({
   email: z.email("Invalid email format"),
 
   password: z
@@ -17,7 +17,7 @@ export const registerZodSchema = z.object({
   bio: z.string().max(200).optional(),
   avatar: z.string().optional(),
 });
-export const updateMeZodSchema = z.object({
+export const updateMyProfileZodSchema = z.object({
   bio: z.string().max(200).optional(),
   avatar: z.string().optional(),
 });
