@@ -13,15 +13,14 @@ import {
 } from "@/src/components/ui/avatar";
 import Logout from "./Logout/Logout";
 import ProfileButton from "./ProfileButton";
-export default function UserDropdown() {
-  const user = {
-    id: "65f1a2b3c4d5e6f7890abc01",
-    username: "Shahariar Sohan",
-    email: "sohan@example.com",
-    password: "hashed_password_123",
-    createdAt: new Date("2026-03-01T10:00:00Z"),
-    avatar: "N/A",
-  };
+import { User } from "../types/interface";
+
+interface UserDropdownProps {
+  user: User; // or type from your auth model
+}
+export default function UserDropdown({user}:UserDropdownProps) {
+
+  
   return (
     <div>
       <DropdownMenu>

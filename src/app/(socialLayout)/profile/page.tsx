@@ -1,9 +1,12 @@
 import Profile from "@/src/components/Profile";
+import getUserInfo from "@/src/services/auth/getUserInfo";
 
-export default function ProfilePage() {
+
+export default async function ProfilePage() {
+  const user = await getUserInfo();
   return (
     <div>
-      <Profile />
+      <Profile user={user} />
     </div>
   );
 }

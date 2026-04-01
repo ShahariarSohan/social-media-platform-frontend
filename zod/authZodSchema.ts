@@ -20,4 +20,8 @@ export const registerValidationSchema = z.object({
 export const updateMyProfileZodSchema = z.object({
   bio: z.string().max(200).optional(),
   avatar: z.string().optional(),
+  username: z
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .optional(),
 });

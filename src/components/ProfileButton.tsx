@@ -1,3 +1,5 @@
+
+"use client"
 import { useRouter } from "next/navigation";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { User } from "lucide-react";

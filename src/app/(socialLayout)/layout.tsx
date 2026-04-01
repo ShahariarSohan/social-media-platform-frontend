@@ -1,20 +1,24 @@
-"use client";
+
 
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 
-import { Home, User, LogOut, PenSquare } from "lucide-react";
-import { toast } from "sonner";
+
+import { Home, PenSquare } from "lucide-react";
+
 import { Button } from "@/src/components/ui/button";
 
-import logoutUser from "@/src/services/auth/logoutUser";
-import UserDropdown from "@/src/components/UserDropdown";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+import UserDropdown from "@/src/components/UserDropdown";
+import getUserInfo from "@/src/services/auth/getUserInfo";
+import { User } from "@/src/types/interface";
+
+
+
+export default async function Layout({ children }: { children: React.ReactNode }) {
   
- 
+ const user:User = await getUserInfo();
 
 
   return (
@@ -36,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Home
                 </Button>
               </Link>
-             <UserDropdown/>
+              <UserDropdown user={user} />
              
             </nav>
           </div>

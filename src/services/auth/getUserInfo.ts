@@ -26,19 +26,14 @@ const getUserInfo = async (): Promise<User | any> => {
         process.env.ACCESS_TOKEN_SECRET as string,
       ) as JwtPayload;
       userInfo = {
-        name: verifiedToken.name || "Unknown User",
+        name: verifiedToken.username || "Unknown User",
         email: verifiedToken.email,
         role: verifiedToken.role,
       };
     }
 
     userInfo = {
-      name:
-        result.data.admin?.name ||
-        result.data.employee?.name ||
-        result.data.manager?.name ||
-        result.data?.name ||
-        "Unknown User",
+      name: result.data?.username || "Unknown User",
       ...result.data,
     };
 
