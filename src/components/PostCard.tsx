@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { Post } from "@/src/types/interface";
 import { toggleLike } from "../services/userActivities/like";
+import { useState } from "react";
 
 interface PostCardProps {
   post: any;
@@ -23,18 +24,16 @@ export default function PostCard({
   onEdit,
 }: PostCardProps) {
   //   const { user } = useAuth();
-  // const [liked, setLiked] = useState(
-  //   post.likes.some((like) => like.userId === user?.id),
-  // );
+  const intialLike=post?.likes?.length>0?true:false
+  const [liked, setLiked] = useState(intialLike);
   // const [likeCount, setLikeCount] = useState(post.likes.length);
 
   // const isAuthor = user?.id === post.authorId;
 
   const handleLike = async (postId:string) => {
-  
-
     try {
       const res = await toggleLike(postId);
+      setLiked(res?.data.liked)
     } catch (error) {
       toast.error("Failed to like post");
     }
@@ -54,8 +53,8 @@ export default function PostCard({
       toast.error("Failed to delete post");
     }
   };
-  const isAuthor = true;
-  const liked = true;
+ 
+  
   
   return (
     <Card className="overflow-hidden">

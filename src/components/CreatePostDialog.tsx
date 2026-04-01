@@ -1,4 +1,9 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { useActionState } from "react";
+
+
 
 import {
   Dialog,
@@ -7,78 +12,86 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
-import { PlusCircle, Image as ImageIcon, X } from "lucide-react";
+} from "@/src/components/ui/dialog";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Textarea } from "@/src/components/ui/textarea";
+import { Label } from "@/src/components/ui/label";
+
+import { PlusCircle, X, Upload } from "lucide-react";
 import { toast } from "sonner";
-import { Post } from "@/src/types/interface";
+import { Post } from "../types/interface";
+import { createPost } from "../services/userActivities/post";
 
 interface CreatePostDialogProps {
   editPost?: Post | null;
-  onSubmit: (
-    data: { title: string; content: string; imageUrl?: string },
-    postId?: string,
-  ) => Promise<void>;
   onClose?: () => void;
 }
 
+const initialState = {
+  success: false,
+  message: "",
+};
+
 export default function CreatePostDialog({
   editPost,
-  onSubmit,
   onClose,
 }: CreatePostDialogProps) {
   const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [state, formAction, isPending] = useActionState(
+    createPost,
+    initialState,
+  );
+
+  // Open dialog in edit mode
   useEffect(() => {
     if (editPost) {
-      setTitle(editPost.title);
-      setContent(editPost.content);
-      setImageUrl(editPost.imageUrl || "");
       setOpen(true);
+      setImagePreview(editPost.imageUrl || "");
     }
   }, [editPost]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Handle response
+  useEffect(() => {
+    if (state?.success) {
+      toast.success(state.message || "Success");
+      handleClose();
+    } else if (state?.message) {
+      toast.error(state.message);
+    }
+  }, [state]);
 
-    if (!title.trim() || !content.trim()) {
-      toast.error("Title and content are required");
+  // Image preview handler
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
       return;
     }
 
-    setLoading(true);
-
-    try {
-      await onSubmit(
-        { title, content, imageUrl: imageUrl || undefined },
-        editPost?.id,
-      );
-      toast.success(
-        editPost ? "Post updated successfully" : "Post created successfully",
-      );
-      handleClose();
-    } catch (error) {
-      toast.error(editPost ? "Failed to update post" : "Failed to create post");
-    } finally {
-      setLoading(false);
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be less than 5MB");
+      return;
     }
+
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const handleRemoveImage = () => {
+    setImagePreview("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleClose = () => {
     setOpen(false);
-    setTitle("");
-    setContent("");
-    setImageUrl("");
-    if (onClose) {
-      onClose();
-    }
+    setImagePreview("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    onClose?.();
   };
 
   return (
@@ -86,19 +99,19 @@ export default function CreatePostDialog({
       open={open}
       onOpenChange={(isOpen) => {
         setOpen(isOpen);
-        if (!isOpen) {
-          handleClose();
-        }
+        if (!isOpen) handleClose();
       }}
     >
-      <DialogTrigger asChild>
-        {!editPost && (
+      {/* Trigger */}
+      {!editPost && (
+        <DialogTrigger asChild>
           <Button className="gap-2">
             <PlusCircle className="w-5 h-5" />
             Create Post
           </Button>
-        )}
-      </DialogTrigger>
+        </DialogTrigger>
+      )}
+
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
@@ -106,78 +119,91 @@ export default function CreatePostDialog({
           </DialogTitle>
           <DialogDescription>
             {editPost
-              ? "Make changes to your existing post."
-              : "Create a new post to share with your community."}
+              ? "Update your post"
+              : "Share something with your community"}
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+        {/* ✅ IMPORTANT: form uses action instead of onSubmit */}
+        <form action={formAction} className="space-y-4">
+          {/* Hidden ID for edit */}
+          {editPost && (
+            <input type="hidden" name="postId" value={editPost.id} />
+          )}
+
+          {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label>Title</Label>
             <Input
-              id="title"
+              name="title"
+              defaultValue={editPost?.title}
               placeholder="Enter post title..."
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
 
+          {/* Content */}
           <div className="space-y-2">
-            <Label htmlFor="content">Content</Label>
+            <Label>Content</Label>
             <Textarea
-              id="content"
+              name="content"
+              defaultValue={editPost?.content}
               placeholder="What's on your mind?"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={6}
+              rows={5}
               required
             />
           </div>
 
+          {/* Image Upload */}
           <div className="space-y-2">
-            <Label htmlFor="imageUrl">Image URL (optional)</Label>
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <Input
-                  id="imageUrl"
-                  type="url"
-                  placeholder="https://example.com/image.jpg"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                />
+            <Label>Image (optional)</Label>
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+
+            {!imagePreview ? (
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-gray-400"
+              >
+                <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                <p className="text-sm text-gray-600">Click to upload image</p>
+                <p className="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
               </div>
-              {imageUrl && (
+            ) : (
+              <div className="relative">
+                <img
+                  src={imagePreview}
+                  alt="preview"
+                  className="w-full h-64 object-cover rounded-lg"
+                />
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="destructive"
                   size="icon"
-                  onClick={() => setImageUrl("")}
+                  className="absolute top-2 right-2"
+                  onClick={handleRemoveImage}
                 >
                   <X className="w-4 h-4" />
                 </Button>
-              )}
-            </div>
-            {imageUrl && (
-              <div className="mt-2 relative">
-                <img
-                  src={imageUrl}
-                  alt="Preview"
-                  className="w-full h-48 object-cover rounded-md"
-                  onError={() => {
-                    toast.error("Invalid image URL");
-                    setImageUrl("");
-                  }}
-                />
               </div>
             )}
           </div>
 
+          {/* Actions */}
           <div className="flex justify-end gap-2 pt-4">
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? "Saving..." : editPost ? "Update" : "Create"}
+
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Saving..." : editPost ? "Update" : "Create"}
             </Button>
           </div>
         </form>

@@ -4,6 +4,7 @@
 import { serverFetch } from "@/src/lib/serverFetch";
 import zodValidator from "@/src/lib/zodValidator";
 import { createPostZodSchema, updatePostZodSchema } from "@/zod/postZodSchema";
+import { revalidateTag } from "next/cache";
 
 
 
@@ -34,9 +35,9 @@ export async function createPost(_prevState: any, formData: FormData) {
     sendData.append("title", validated.data.title as string);
     sendData.append("content", validated.data.content as string);
 
-    // Append image if present
+    // Append image if a valid file is present
     const imageFile = formData.get("image") as File | null;
-    if (imageFile) {
+    if (imageFile && imageFile.name && imageFile.size > 0) {
       sendData.append("image", imageFile);
     }
 
@@ -46,6 +47,8 @@ export async function createPost(_prevState: any, formData: FormData) {
     });
 
     const result = await response.json();
+    console.log("result from create post", result)
+    revalidateTag("POSTS", "max")
     return result;
   } catch (err: any) {
     console.error("Create post error:", err);
