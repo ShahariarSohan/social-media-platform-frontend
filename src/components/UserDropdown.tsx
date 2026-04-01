@@ -11,7 +11,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/src/components/ui/avatar";
-import { User } from "lucide-react";
 import Logout from "./Logout/Logout";
 import ProfileButton from "./ProfileButton";
 export default function UserDropdown() {

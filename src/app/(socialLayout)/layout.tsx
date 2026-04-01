@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
 
             <nav className="flex items-center space-x-4">
-              <Link href="/">
+              <Link href="/feed">
                 <Button variant="ghost" size="sm">
                   <Home className="w-4 h-4 mr-2" />
                   Home

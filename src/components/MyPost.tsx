@@ -12,7 +12,7 @@ import { Skeleton } from "./ui/skeleton";
 
 // Mock data for demonstration
 
-export default function Feed() {
+export default function MyPosts() {
   const user = {
     id: "65f1a2b3c4d5e6f7890abc01",
     username: "Shahariar Sohan",
@@ -148,7 +148,7 @@ export default function Feed() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-semibold">Feed</h1>
+        <h1 className="text-3xl font-semibold">My Posts</h1>
         {/* <CreatePostDialog
           onSubmit={handleCreatePost}
           editPost={editingPost}
@@ -168,6 +168,8 @@ export default function Feed() {
             <PostCard
               key={post.id}
               post={post}
+              onDelete={() => handleDeletePost()}
+              onEdit={() => handleCreatePost()}
               onLike={() => handleLike()}
             />
           ))

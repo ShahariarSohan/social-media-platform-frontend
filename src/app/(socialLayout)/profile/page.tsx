@@ -1,9 +1,9 @@
-import Feed from "@/src/components/Feed";
+import Profile from "@/src/components/Profile";
 
-export default function HomeFeedPage() {
+export default function ProfilePage() {
   return (
     <div>
-      <Feed />
+      <Profile />
     </div>
   );
 }
