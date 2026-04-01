@@ -26,7 +26,7 @@ export const serverFetchHelper = async (
 export const serverFetch = {
   get: async (endpoint: string, options?: RequestInit): Promise<Response> =>
     serverFetchHelper(endpoint, { ...options, method: "GET" }),
-  post: async (endpoint: string, options: RequestInit): Promise<Response> =>
+  post: async (endpoint: string, options?: RequestInit): Promise<Response> =>
     serverFetchHelper(endpoint, { ...options, method: "POST" }),
   patch: async (endpoint: string, options: RequestInit): Promise<Response> =>
     serverFetchHelper(endpoint, { ...options, method: "PATCH" }),

@@ -24,11 +24,12 @@ const updateMyProfile = async (_: any, formData: FormData) => {
 
     // Build FormData to send to backend
     const sendData = new FormData();
+   
+      if (validation.data?.username)
+        sendData.append("username", validation.data.username as string);
 
-    if (validation.data?.username)
-      sendData.append("username", validation.data.username);
-
-    if (validation.data?.bio) sendData.append("bio", validation.data.bio);
+      if (validation.data?.bio) sendData.append("bio", validation.data.bio as string);
+    
 
     // Append avatar ONLY if file exists
     if (avatar && avatar.size > 0) {

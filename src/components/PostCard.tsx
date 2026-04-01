@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 
+"use client"
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
@@ -8,6 +8,7 @@ import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import Link from "next/link";
 import { Post } from "@/src/types/interface";
+import { toggleLike } from "../services/userActivities/like";
 
 interface PostCardProps {
   post: any;
@@ -20,7 +21,6 @@ export default function PostCard({
   post,
   onDelete,
   onEdit,
-  onLike,
 }: PostCardProps) {
   //   const { user } = useAuth();
   // const [liked, setLiked] = useState(
@@ -30,17 +30,15 @@ export default function PostCard({
 
   // const isAuthor = user?.id === post.authorId;
 
-  // const handleLike = async () => {
-  //   if (!onLike) return;
+  const handleLike = async (postId:string) => {
+  
 
-  //   try {
-  //     await onLike(post.id);
-  //     setLiked(!liked);
-  //     setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
-  //   } catch (error) {
-  //     toast.error("Failed to like post");
-  //   }
-  // };
+    try {
+      const res = await toggleLike(postId);
+    } catch (error) {
+      toast.error("Failed to like post");
+    }
+  };
 
   const handleDelete = async () => {
     if (
@@ -50,7 +48,7 @@ export default function PostCard({
       return;
 
     try {
-      await onDelete(post.id);
+      await onDelete();
       toast.success("Post deleted successfully");
     } catch (error) {
       toast.error("Failed to delete post");
@@ -58,7 +56,7 @@ export default function PostCard({
   };
   const isAuthor = true;
   const liked = true;
-  const likeCount = 10;
+  
   return (
     <Card className="overflow-hidden">
       <CardHeader className="flex flex-row items-center gap-4 p-4">
@@ -74,10 +72,10 @@ export default function PostCard({
             {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
           </p>
         </div>
-        {isAuthor && (
+        
           <div className="flex gap-2">
             {onEdit && (
-              <Button variant="ghost" size="sm" onClick={() => onEdit(post)}>
+              <Button variant="ghost" size="sm" onClick={() => onEdit()}>
                 <Edit className="w-4 h-4" />
               </Button>
             )}
@@ -87,7 +85,7 @@ export default function PostCard({
               </Button>
             )}
           </div>
-        )}
+      
       </CardHeader>
 
       <CardContent className="p-0">
@@ -107,16 +105,16 @@ export default function PostCard({
       </CardContent>
 
       <CardFooter className="flex items-center gap-4 p-4 border-t">
-        <Button variant="ghost" size="sm" className="gap-2" onClick={() => {}}>
+        <Button variant="ghost" size="sm" className="gap-2" onClick={() => handleLike(post.id)}>
           <Heart
             className={`w-5 h-5 ${liked ? "fill-red-500 text-red-500" : ""}`}
           />
-          <span>{likeCount}</span>
+          <span>{post?.likes.length}</span>
         </Button>
         <Link href={`/post/${post.id}`}>
           <Button variant="ghost" size="sm" className="gap-2">
             <MessageCircle className="w-5 h-5" />
-            <span>{post.comments.length}</span>
+            <span>{post?.comments.length}</span>
           </Button>
         </Link>
       </CardFooter>
