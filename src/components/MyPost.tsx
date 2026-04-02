@@ -61,7 +61,7 @@ export default async function MyPosts() {
             </p>
           </div>
         ) : (
-          postsData.map((post) => (
+          postsData?.map((post) => (
             <PostCard
               key={post.id}
               post={post}

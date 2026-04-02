@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
+import { Input } from "./ui/input";
 import { Heart, MessageCircle, Trash2, Edit, Send } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
@@ -12,6 +13,7 @@ import { useState, useRef } from "react";
 
 import { toggleLike } from "../services/userActivities/like";
 import { createComment, deleteComment, updateComment } from "../services/userActivities/comment";
+import { updatePost, deletePost } from "../services/userActivities/post";
 
 
 interface PostCardProps {
@@ -39,9 +41,48 @@ export default function PostCard({
 
       const isLiked = res?.data?.liked;
       setLiked(isLiked);
-      setLikeCount((prev) => (isLiked ? prev + 1 : prev - 1));
+      setLikeCount((prev:any) => (isLiked ? prev + 1 : prev - 1));
     } catch {
       toast.error("Failed to like post");
+    }
+  };
+
+  // ---------------- POST ACTIONS ----------------
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [isEditingPost, setIsEditingPost] = useState(false);
+  const [editPostTitle, setEditPostTitle] = useState(post.title);
+  const [editPostContent, setEditPostContent] = useState(post.content);
+
+  const handleUpdatePostLocal = async () => {
+    const formData = new FormData();
+    formData.append("title", editPostTitle);
+    formData.append("content", editPostContent);
+
+    const res = await updatePost(post.id, null, formData);
+
+    if (res?.success) {
+      toast.success("Post updated successfully");
+      post.title = editPostTitle;
+      post.content = editPostContent;
+      setIsEditingPost(false);
+    } else {
+      toast.error(res?.message || "Failed to update post");
+    }
+  };
+
+  const handleDeletePostLocal = async () => {
+    if (!confirm("Delete this post?")) return;
+
+    try {
+      const res = await deletePost(post.id);
+      if (res?.success) {
+        toast.success("Post deleted");
+        setIsDeleted(true);
+      } else {
+        toast.error(res?.message || "Delete failed");
+      }
+    } catch {
+      toast.error("Delete failed");
     }
   };
 
@@ -101,17 +142,7 @@ export default function PostCard({
     }
   };
 
-  // ---------------- DELETE POST ----------------
-  const handleDeletePost = async () => {
-    if (!onDelete || !confirm("Delete this post?")) return;
-
-    try {
-      await onDelete();
-      toast.success("Post deleted");
-    } catch {
-      toast.error("Delete failed");
-    }
-  };
+  if (isDeleted) return null;
 
   return (
     <Card className="overflow-hidden">
@@ -134,30 +165,51 @@ export default function PostCard({
         </div>
 
         <div className="flex gap-2">
-          {onEdit && (
-            <Button variant="ghost" size="sm" onClick={onEdit}>
-              <Edit className="w-4 h-4" />
-            </Button>
-          )}
-          {onDelete && (
-            <Button variant="ghost" size="sm" onClick={handleDeletePost}>
-              <Trash2 className="w-4 h-4 text-red-500" />
-            </Button>
+          {post.authorId === user?.id && (
+            <>
+              <Button variant="ghost" size="sm" onClick={() => setIsEditingPost(!isEditingPost)}>
+                <Edit className="w-4 h-4" />
+              </Button>
+              <Button variant="ghost" size="sm" onClick={handleDeletePostLocal}>
+                <Trash2 className="w-4 h-4 text-red-500" />
+              </Button>
+            </>
           )}
         </div>
       </CardHeader>
 
       {/* CONTENT */}
       <CardContent className="p-0">
-        <Link href={`/post/${post.id}`}>
-          <div className="px-4 pb-3">
-            <h3 className="font-semibold text-lg">{post.title}</h3>
-            <p className="text-gray-700">{post.content}</p>
+        {isEditingPost ? (
+          <div className="px-4 pb-3 space-y-3 pt-3">
+             <Input 
+                value={editPostTitle} 
+                onChange={(e) => setEditPostTitle(e.target.value)} 
+                placeholder="Post title" 
+                className="font-semibold text-lg"
+             />
+             <Textarea 
+                value={editPostContent} 
+                onChange={(e) => setEditPostContent(e.target.value)} 
+                placeholder="Post content"
+                className="min-h-[100px]"
+             />
+             <div className="flex gap-2">
+                <Button size="sm" onClick={handleUpdatePostLocal}>Save</Button>
+                <Button size="sm" variant="outline" onClick={() => setIsEditingPost(false)}>Cancel</Button>
+             </div>
           </div>
-          {post.imageUrl && (
-            <img src={post.imageUrl} className="w-full h-96 object-cover" />
-          )}
-        </Link>
+        ) : (
+          <Link href={`/post/${post.id}`}>
+            <div className="px-4 pb-3">
+              <h3 className="font-semibold text-lg">{post.title}</h3>
+              <p className="text-gray-700">{post.content}</p>
+            </div>
+            {post.imageUrl && (
+              <img src={post.imageUrl} className="w-full h-96 object-cover" />
+            )}
+          </Link>
+        )}
       </CardContent>
 
       {/* FOOTER */}

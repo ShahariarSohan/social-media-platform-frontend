@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Profile from "@/src/components/Profile";
 import getUserInfo from "@/src/services/auth/getUserInfo";
 

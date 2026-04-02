@@ -1,0 +1,114 @@
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 2.8s
+  Running TypeScript ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/10) ...
+Error: Dynamic server usage: Route /my-posts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_505362d9._.js:1:155)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\src_59b203c9._.js:1:16110) {
+  description: "Route /my-posts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error: Dynamic server usage: Route /my-posts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_505362d9._.js:1:155)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\[root-of-the-server]__39637a76._.js:1:2453) {
+  description: "Route /my-posts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Get posts error: Error: Dynamic server usage: Route /my-posts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at j (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_73b9f784._.js:1:1048)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\[root-of-the-server]__39637a76._.js:1:2480) {
+  description: "Route /my-posts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error: Dynamic server usage: Route /feed couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_505362d9._.js:1:155)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\src_59b203c9._.js:1:16110) {
+  description: "Route /feed couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error: Dynamic server usage: Route /feed couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_505362d9._.js:1:155)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\[root-of-the-server]__0dfdbdcb._.js:1:2453) {
+  description: "Route /feed couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Get posts error: Error: Dynamic server usage: Route /feed couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at k (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_73b9f784._.js:1:1246)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\[root-of-the-server]__0dfdbdcb._.js:1:2481) {
+  description: "Route /feed couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error: Dynamic server usage: Route /profiles couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_505362d9._.js:1:155)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\src_59b203c9._.js:1:16110) {
+  description: "Route /profiles couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error: Dynamic server usage: Route /profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_505362d9._.js:1:155)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\src_59b203c9._.js:1:16110) {
+  description: "Route /profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error: Dynamic server usage: Route /profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:1:10722)
+    at n (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:4:11054)
+    at f (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:447)
+    at h (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:929)
+    at Object.get (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_f67b2759._.js:5:1116)
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\_505362d9._.js:1:155)
+    at e (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\[root-of-the-server]__b4064589._.js:1:1399) {
+  description: "Route /profile couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error occurred prerendering page "/my-posts". Read more: https://nextjs.org/docs/messages/prerender-error
+TypeError: Cannot read properties of undefined (reading 'map')
+    at g (C:\Sohan Project\client-projects\social-media-platform-frontend\.next\server\chunks\ssr\[root-of-the-server]__39637a76._.js:1:2963) {
+  digest: '836532143'
+}
+Export encountered an error on /(socialLayout)/(feedLayout)/my-posts/page: /my-posts, exiting the build.
+⨯ Next.js build worker exited with code: 1 and signal: null
