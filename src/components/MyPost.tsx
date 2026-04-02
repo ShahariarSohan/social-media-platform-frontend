@@ -6,6 +6,7 @@ import PostCard from "./PostCard";
 import { Skeleton } from "./ui/skeleton";
 import { getMyPosts } from "../services/userActivities/post";
 import CreatePostDialog from "./CreatePostDialog";
+import getUserInfo from "../services/auth/getUserInfo";
 
 // import PostCard from "./PostCard";
 // import CreatePostDialog from "./CreatePostDialog";
@@ -15,6 +16,7 @@ import CreatePostDialog from "./CreatePostDialog";
 // Mock data for demonstration
 
 export default async function MyPosts() {
+   const user = await getUserInfo();
    const posts=await getMyPosts();
     const postsData=posts?.data as Post[]
 
@@ -45,14 +47,10 @@ export default async function MyPosts() {
   // }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold">My Posts</h1>
-        <CreatePostDialog
-          // onSubmit={handleCreatePost}
-          // editPost={editingPost}
-          // onClose={() => setEditingPost(null)}
-        />
+        <CreatePostDialog/>
       </div>
 
       <div className="space-y-6">
@@ -67,6 +65,7 @@ export default async function MyPosts() {
             <PostCard
               key={post.id}
               post={post}
+              user={user}
               // onDelete={() => handleDeletePost()}
               // onEdit={() => handleCreatePost()}
             />

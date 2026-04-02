@@ -4,6 +4,7 @@ import { Skeleton } from "./ui/skeleton";
 import { getAllPosts } from "../services/userActivities/post";
 import { Post } from "../types/interface";
 import CreatePostDialog from "./CreatePostDialog";
+import getUserInfo from "../services/auth/getUserInfo";
 
 // import PostCard from "./PostCard";
 // import CreatePostDialog from "./CreatePostDialog";
@@ -15,44 +16,13 @@ import CreatePostDialog from "./CreatePostDialog";
 export default async function Feed() {
   // const [posts, setPosts] = useState<Post[]>([]);
   // const [loading, setLoading] = useState(false);
+  const user = await getUserInfo();
   const posts = await getAllPosts();
   const postsData = posts?.data as Post[];
 
-  const handleCreatePost = () => {
-    console.log("create post");
-    //   data: { title: string; content: string; imageUrl?: string },
-    //   postId?: string,
-    // ) => {
-    //   if (postId) {
-    //     // Update existing post
-    //     setPosts((prev) =>
-    //       prev.map((post) =>
-    //         post.id === postId
-    //           ? { ...post, ...data, updatedAt: new Date().toISOString() }
-    //           : post,
-    //       ),
-    //     );
-    //     setEditingPost(null);
-    //   } else {
-    //     // Create new post
-    //     const newPost: Post = {
-    //       id: Date.now().toString(),
-    //       ...data,
-    //       authorId: user!.id,
-    //       author: user!,
-    //       comments: [],
-    //       likes: [],
-    //       createdAt: new Date().toISOString(),
-    //       updatedAt: new Date().toISOString(),
-    //     };
-    //     setPosts((prev) => [newPost, ...prev]);
-    //   }
-  };
+  
 
-  const handleDeletePost = () => {
-    console.log("delete post");
-    // setPosts((prev) => prev.filter((post) => post.id !== postId));
-  };
+ 
 
   // if (loading) {
   //   return (
@@ -67,7 +37,7 @@ export default async function Feed() {
   // }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold">Feed</h1>
         <CreatePostDialog />
@@ -81,7 +51,7 @@ export default async function Feed() {
             </p>
           </div>
         ) : (
-          postsData?.map((post: Post) => <PostCard key={post.id} post={post} />)
+          postsData?.map((post: Post) => <PostCard key={post.id} post={post} user={user} />)
         )}
       </div>
     </div>
