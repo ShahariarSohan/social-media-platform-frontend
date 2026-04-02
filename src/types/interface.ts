@@ -1,4 +1,4 @@
-export type Role = 'USER' | 'ADMIN';
+export type Role = "USER" | "ADMIN";
 
 export interface User {
   id: string;
@@ -9,6 +9,9 @@ export interface User {
   bio?: string;
   createdAt: string;
   updatedAt: string;
+  posts?: Post[];
+  comments?: Comment[];
+  likes?: Like[];
 }
 
 export interface Post {
