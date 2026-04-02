@@ -20,10 +20,6 @@ export default async function Feed() {
   const posts = await getAllPosts();
   const postsData = posts?.data as Post[];
 
-  
-
- 
-
   // if (loading) {
   //   return (
   //     <div className="max-w-2xl mx-auto space-y-6">
@@ -51,7 +47,9 @@ export default async function Feed() {
             </p>
           </div>
         ) : (
-          postsData?.map((post: Post) => <PostCard key={post.id} post={post} user={user} />)
+          postsData?.map((post: Post) => (
+            <PostCard key={post.id} post={post} user={user} />
+          ))
         )}
       </div>
     </div>

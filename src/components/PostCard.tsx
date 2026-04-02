@@ -9,12 +9,16 @@ import { Heart, MessageCircle, Trash2, Edit, Send } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useRef, useActionState, useEffect } from "react";
 
 import { toggleLike } from "../services/userActivities/like";
-import { createComment, deleteComment, updateComment } from "../services/userActivities/comment";
+import {
+  createComment,
+  deleteComment,
+  updateComment,
+} from "../services/userActivities/comment";
 import { updatePost, deletePost } from "../services/userActivities/post";
-
 
 interface PostCardProps {
   post: any;
@@ -41,34 +45,30 @@ export default function PostCard({
 
       const isLiked = res?.data?.liked;
       setLiked(isLiked);
-      setLikeCount((prev:any) => (isLiked ? prev + 1 : prev - 1));
+      setLikeCount((prev: any) => (isLiked ? prev + 1 : prev - 1));
     } catch {
       toast.error("Failed to like post");
     }
   };
 
   // ---------------- POST ACTIONS ----------------
-  const [isDeleted, setIsDeleted] = useState(false);
+  const router = useRouter();
   const [isEditingPost, setIsEditingPost] = useState(false);
-  const [editPostTitle, setEditPostTitle] = useState(post.title);
-  const [editPostContent, setEditPostContent] = useState(post.content);
 
-  const handleUpdatePostLocal = async () => {
-    const formData = new FormData();
-    formData.append("title", editPostTitle);
-    formData.append("content", editPostContent);
+  const [updatePostState, updatePostAction, isUpdatePostPending] = useActionState(
+    updatePost.bind(null, post.id),
+    null
+  );
 
-    const res = await updatePost(post.id, null, formData);
-
-    if (res?.success) {
+  useEffect(() => {
+    if (updatePostState?.success) {
       toast.success("Post updated successfully");
-      post.title = editPostTitle;
-      post.content = editPostContent;
       setIsEditingPost(false);
-    } else {
-      toast.error(res?.message || "Failed to update post");
+      router.refresh();
+    } else if (updatePostState?.success === false) {
+      toast.error(updatePostState?.message || "Failed to update post");
     }
-  };
+  }, [updatePostState, router]);
 
   const handleDeletePostLocal = async () => {
     if (!confirm("Delete this post?")) return;
@@ -77,7 +77,7 @@ export default function PostCard({
       const res = await deletePost(post.id);
       if (res?.success) {
         toast.success("Post deleted");
-        setIsDeleted(true);
+        router.refresh();
       } else {
         toast.error(res?.message || "Delete failed");
       }
@@ -100,7 +100,10 @@ export default function PostCard({
 
     if (res?.success) {
       toast.success("Comment added");
-      setComments((prev: any) => [{ ...res?.data, author: res?.data?.author || user }, ...prev]);
+      setComments((prev: any) => [
+        { ...res?.data, author: res?.data?.author || user },
+        ...prev,
+      ]);
       formRef.current?.reset();
     } else {
       toast.error(res?.message || "Failed");
@@ -142,8 +145,6 @@ export default function PostCard({
     }
   };
 
-  if (isDeleted) return null;
-
   return (
     <Card className="overflow-hidden">
       {/* HEADER */}
@@ -167,7 +168,11 @@ export default function PostCard({
         <div className="flex gap-2">
           {post.authorId === user?.id && (
             <>
-              <Button variant="ghost" size="sm" onClick={() => setIsEditingPost(!isEditingPost)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsEditingPost(!isEditingPost)}
+              >
                 <Edit className="w-4 h-4" />
               </Button>
               <Button variant="ghost" size="sm" onClick={handleDeletePostLocal}>
@@ -181,24 +186,36 @@ export default function PostCard({
       {/* CONTENT */}
       <CardContent className="p-0">
         {isEditingPost ? (
-          <div className="px-4 pb-3 space-y-3 pt-3">
-             <Input 
-                value={editPostTitle} 
-                onChange={(e) => setEditPostTitle(e.target.value)} 
-                placeholder="Post title" 
-                className="font-semibold text-lg"
-             />
-             <Textarea 
-                value={editPostContent} 
-                onChange={(e) => setEditPostContent(e.target.value)} 
-                placeholder="Post content"
-                className="min-h-[100px]"
-             />
-             <div className="flex gap-2">
-                <Button size="sm" onClick={handleUpdatePostLocal}>Save</Button>
-                <Button size="sm" variant="outline" onClick={() => setIsEditingPost(false)}>Cancel</Button>
-             </div>
-          </div>
+          <form action={updatePostAction} className="px-4 pb-3 space-y-3 pt-3">
+            <Input
+              name="title"
+              defaultValue={post.title}
+              placeholder="Post title"
+              className="font-semibold text-lg"
+              disabled={isUpdatePostPending}
+            />
+            <Textarea
+              name="content"
+              defaultValue={post.content}
+              placeholder="Post content"
+              className="min-h-[100px]"
+              disabled={isUpdatePostPending}
+            />
+            <div className="flex gap-2">
+              <Button type="submit" size="sm" disabled={isUpdatePostPending}>
+                {isUpdatePostPending ? "Saving..." : "Save"}
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                type="button"
+                onClick={() => setIsEditingPost(false)}
+                disabled={isUpdatePostPending}
+              >
+                Cancel
+              </Button>
+            </div>
+          </form>
         ) : (
           <Link href={`/post/${post.id}`}>
             <div className="px-4 pb-3">
@@ -248,7 +265,9 @@ export default function PostCard({
                 <div className="flex gap-3">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={c.author?.avatar} />
-                    <AvatarFallback>{c.author?.username?.[0] || "U"}</AvatarFallback>
+                    <AvatarFallback>
+                      {c.author?.username?.[0] || "U"}
+                    </AvatarFallback>
                   </Avatar>
 
                   <div className="flex-1">
@@ -305,7 +324,11 @@ export default function PostCard({
             ))}
 
             {/* CREATE */}
-            <form action={handleCreateComment} ref={formRef} className="flex gap-3">
+            <form
+              action={handleCreateComment}
+              ref={formRef}
+              className="flex gap-3"
+            >
               <input type="hidden" name="postId" value={post.id} />
               <Avatar className="h-8 w-8">
                 <AvatarImage src={user?.avatar} />

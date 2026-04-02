@@ -27,24 +27,7 @@ export default async function MyPosts() {
 
  
 
-  const handleDeletePost = () => {
-    console.log("delete post");
-    // setPosts((prev) => prev.filter((post) => post.id !== postId));
-  };
 
- 
-
-  // if (loading) {
-  //   return (
-  //     <div className="max-w-2xl mx-auto space-y-6">
-  //       {[1, 2, 3].map((i) => (
-  //         <div key={i} className="space-y-3">
-  //           <Skeleton className="h-64 w-full" />
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -66,8 +49,6 @@ export default async function MyPosts() {
               key={post.id}
               post={post}
               user={user}
-              // onDelete={() => handleDeletePost()}
-              // onEdit={() => handleCreatePost()}
             />
           ))
         )}

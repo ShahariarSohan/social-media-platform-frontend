@@ -6,8 +6,6 @@ import zodValidator from "@/src/lib/zodValidator";
 import { createPostZodSchema, updatePostZodSchema } from "@/zod/postZodSchema";
 import { revalidateTag } from "next/cache";
 
-
-
 /**
  * Create a new Post
  */
@@ -47,8 +45,8 @@ export async function createPost(_prevState: any, formData: FormData) {
     });
 
     const result = await response.json();
-    console.log("result from create post", result)
-    revalidateTag("POSTS", "max")
+    console.log("result from create post", result);
+    revalidateTag("POSTS", "max");
     return result;
   } catch (err: any) {
     console.error("Create post error:", err);
@@ -158,6 +156,7 @@ export async function updatePost(
     });
 
     const result = await response.json();
+    revalidateTag("POSTS", "max");
     return result;
   } catch (err: any) {
     console.error("Update post error:", err);
@@ -178,7 +177,9 @@ export async function updatePost(
 export async function deletePost(id: string) {
   try {
     const response = await serverFetch.delete(`/posts/${id}`);
-    return await response.json();
+    const result = await response.json();
+    revalidateTag("POSTS", "max");
+    return result;
   } catch (err: any) {
     console.error("Delete post error:", err);
     return {
