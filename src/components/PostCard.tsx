@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useActionState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 import { toggleLike } from "../services/userActivities/like";
 import {
@@ -71,7 +72,17 @@ export default function PostCard({
   }, [updatePostState, router]);
 
   const handleDeletePostLocal = async () => {
-    if (!confirm("Delete this post?")) return;
+    const confirmResult = await Swal.fire({
+      title: "Delete this post?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#3b82f6",
+      confirmButtonText: "Delete"
+    });
+
+    if (!confirmResult.isConfirmed) return;
 
     try {
       const res = await deletePost(post.id);
@@ -133,7 +144,16 @@ export default function PostCard({
 
   // DELETE
   const handleDeleteComment = async (id: string) => {
-    if (!confirm("Delete comment?")) return;
+    const confirmResult = await Swal.fire({
+      title: "Delete comment?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#3b82f6",
+      confirmButtonText: "Delete"
+    });
+
+    if (!confirmResult.isConfirmed) return;
 
     const res = await deleteComment(id);
 
