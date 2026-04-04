@@ -99,6 +99,10 @@ export default function UserProfileDetails({ profileUser, currentUser }: UserPro
                   <p className="text-xl font-bold text-primary">{profileUser.likes?.length || 0}</p>
                   <p className="text-[10px] uppercase font-semibold text-muted-foreground">Likes</p>
                 </div>
+                <div className="p-3 rounded-lg bg-secondary/30">
+                  <p className="text-xl font-bold text-primary">{profileUser.followers?.length || 0}</p>
+                  <p className="text-[10px] uppercase font-semibold text-muted-foreground">Followers</p>
+                </div>
               </div>
 
               {profileUser.id !== currentUser?.id && (

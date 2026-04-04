@@ -194,7 +194,9 @@ export async function deletePost(id: string) {
 
 export async function getFollowedFeed() {
   try {
-    const response = await serverFetch.get("/posts/feed");
+    const response = await serverFetch.get("/posts/feed", {
+      next: { tags: ["POSTS"] },
+    });
     return await response.json();
   } catch (err: any) {
     console.error("Get followed feed error:", err);

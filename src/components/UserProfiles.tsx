@@ -40,7 +40,10 @@ export default async function UserProfiles() {
             <Card key={profile.id} className="p-6">
               <div className="flex items-start gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src={profile.avatar || ""} alt={profile.username} />
+                  <AvatarImage
+                    src={profile.avatar || ""}
+                    alt={profile.username}
+                  />
                   <AvatarFallback>
                     {profile.username.charAt(0).toUpperCase()}
                   </AvatarFallback>
@@ -69,20 +72,26 @@ export default async function UserProfiles() {
                     <span>
                       <strong>{profile.likes?.length || 0}</strong> likes
                     </span>
+                    <span>
+                      <strong>{profile.followers?.length || 0}</strong> followers
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="flex gap-2 mt-4">
                 <Link href={`/profile/${profile.id}`} className="flex-1">
-                  <Button variant="outline" className="w-full">
+                  <Button
+                    variant="outline"
+                    className="w-full h-8 transition-all duration-300 font-semibold shadow-sm rounded-sm"
+                  >
                     View Profile
                   </Button>
                 </Link>
                 <div className="flex-1">
-                  <FollowButton 
-                    userId={profile.id} 
-                    isFollowing={isFollowing(profile.id)} 
+                  <FollowButton
+                    userId={profile.id}
+                    isFollowing={isFollowing(profile.id)}
                   />
                 </div>
               </div>

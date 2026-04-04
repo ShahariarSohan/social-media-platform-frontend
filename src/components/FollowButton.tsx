@@ -37,7 +37,7 @@ export default function FollowButton({ userId, isFollowing }: FollowButtonProps)
   return (
     <Button
       variant={isFollowing ? "outline" : "default"}
-      className="w-full"
+      className="w-full h-9 transition-all duration-300 font-semibold shadow-sm rounded-sm"
       onClick={handleFollow}
       disabled={isPending}
     >

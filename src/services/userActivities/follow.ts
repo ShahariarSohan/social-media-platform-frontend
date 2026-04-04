@@ -2,7 +2,7 @@
 "use server";
 
 import { serverFetch } from "@/src/lib/serverFetch";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 /**
  * Follow a user
@@ -14,8 +14,10 @@ export async function followUser(userId: string) {
     });
 
     const result = await response.json();
-    revalidateTag("USERS","max");
-    revalidateTag("USERINFO","max");
+    revalidateTag("USERS", "max");
+    revalidateTag("USERINFO", "max");
+    revalidateTag("POSTS", "max");
+    revalidatePath("/", "layout");
     return result;
   } catch (err: any) {
     console.error("Follow user error:", err);
@@ -40,7 +42,9 @@ export async function unfollowUser(userId: string) {
 
     const result = await response.json();
     revalidateTag("USERS","max");
-    revalidateTag("USERINFO","max");
+    revalidateTag("USERINFO", "max");
+    revalidateTag("POSTS", "max");
+    revalidatePath("/", "layout");
     return result;
   } catch (err: any) {
     console.error("Unfollow user error:", err);
