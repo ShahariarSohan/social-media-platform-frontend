@@ -1,23 +1,18 @@
 import PostCard from "./PostCard";
 // import { useState } from "react";
 import { Skeleton } from "./ui/skeleton";
-import { getAllPosts } from "../services/userActivities/post";
+import { getFollowedFeed } from "../services/userActivities/post";
 import { Post } from "../types/interface";
 import CreatePostDialog from "./CreatePostDialog";
 import getUserInfo from "../services/auth/getUserInfo";
 
 // import PostCard from "./PostCard";
-// import CreatePostDialog from "./CreatePostDialog";
-// import { Skeleton } from "./ui/skeleton";
-// import { Post } from "@/types/interface";
-
-// Mock data for demonstration
 
 export default async function Feed() {
   // const [posts, setPosts] = useState<Post[]>([]);
   // const [loading, setLoading] = useState(false);
   const user = await getUserInfo();
-  const posts = await getAllPosts();
+  const posts = await getFollowedFeed();
   const postsData = posts?.data as Post[];
 
   // if (loading) {

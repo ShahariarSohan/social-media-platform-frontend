@@ -5,10 +5,24 @@ import { Card } from "../components/ui/card";
 import { UserPlus } from "lucide-react";
 import { getAllUsers } from "../services/admin/getAllUsers";
 import { User } from "../types/interface";
+import getUserInfo from "../services/auth/getUserInfo";
+import FollowButton from "./FollowButton";
 
 export default async function UserProfiles() {
-  const res = await getAllUsers();
-  const users: User[] = res?.success ? res.data : [];
+  const [res, currentUser] = await Promise.all([
+    getAllUsers(),
+    getUserInfo(),
+  ]);
+
+  const allUsers: User[] = res?.success ? res.data : [];
+  
+  // Filter out the current user
+  const users = allUsers.filter(user => user.id !== currentUser?.id);
+
+  // Helper to check if current user is following a profile
+  const isFollowing = (profileId: string) => {
+    return currentUser?.following?.some((f: any) => f.followingId === profileId);
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -65,6 +79,12 @@ export default async function UserProfiles() {
                     View Profile
                   </Button>
                 </Link>
+                <div className="flex-1">
+                  <FollowButton 
+                    userId={profile.id} 
+                    isFollowing={isFollowing(profile.id)} 
+                  />
+                </div>
               </div>
             </Card>
           ))

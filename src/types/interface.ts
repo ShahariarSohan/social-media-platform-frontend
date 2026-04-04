@@ -12,6 +12,15 @@ export interface User {
   posts?: Post[];
   comments?: Comment[];
   likes?: Like[];
+  followers?: FollowUserInfo[];
+  following?: FollowUserInfo[];
+}
+
+export interface FollowUserInfo {
+    id: string;
+    followerId: string;
+    followingId: string;
+    createdAt: string;
 }
 
 export interface Post {

@@ -191,3 +191,19 @@ export async function deletePost(id: string) {
     };
   }
 }
+
+export async function getFollowedFeed() {
+  try {
+    const response = await serverFetch.get("/posts/feed");
+    return await response.json();
+  } catch (err: any) {
+    console.error("Get followed feed error:", err);
+    return {
+      success: false,
+      message:
+        process.env.NODE_ENV === "development"
+          ? err.message
+          : "Something went wrong",
+    };
+  }
+}

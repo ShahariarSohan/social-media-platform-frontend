@@ -9,6 +9,7 @@ import { UserPlus, UserMinus, Mail, Calendar, MessageSquare, Heart, FileText } f
 import { format } from "date-fns";
 import PostCard from "./PostCard";
 import { Separator } from "./ui/separator";
+import FollowButton from "./FollowButton";
 
 interface UserProfileDetailsProps {
   profileUser: any;
@@ -16,12 +17,10 @@ interface UserProfileDetailsProps {
 }
 
 export default function UserProfileDetails({ profileUser, currentUser }: UserProfileDetailsProps) {
-  const [isFollowed, setIsFollowed] = useState(false);
-
-  // Fake follow/unfollow toggle
-  const handleFollowToggle = () => {
-    setIsFollowed(!isFollowed);
-  };
+  // Check if current user is following this profile
+  const isCurrentlyFollowing = currentUser?.following?.some(
+    (f: any) => f.followingId === profileUser.id
+  );
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
@@ -103,27 +102,12 @@ export default function UserProfileDetails({ profileUser, currentUser }: UserPro
               </div>
 
               {profileUser.id !== currentUser?.id && (
-                <Button 
-                  onClick={handleFollowToggle}
-                  className={`w-full h-11 transition-all duration-300 font-semibold shadow-sm ${
-                    isFollowed 
-                    ? "bg-secondary text-secondary-foreground hover:bg-destructive hover:text-destructive-foreground group" 
-                    : "bg-primary text-primary-foreground hover:scale-[1.02]"
-                  }`}
-                >
-                  {isFollowed ? (
-                    <>
-                      <UserMinus className="w-4 h-4 mr-2 group-hover:hidden" />
-                      <span className="group-hover:hidden">Following</span>
-                      <span className="hidden group-hover:inline">Unfollow</span>
-                    </>
-                  ) : (
-                    <>
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      Follow
-                    </>
-                  )}
-                </Button>
+                <div className="w-full h-11">
+                  <FollowButton 
+                    userId={profileUser.id} 
+                    isFollowing={isCurrentlyFollowing} 
+                  />
+                </div>
               )}
             </CardContent>
           </Card>
