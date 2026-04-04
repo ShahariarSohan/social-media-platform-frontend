@@ -30,7 +30,7 @@ export default async function UserProfiles() {
         <h1 className="text-3xl font-semibold">Discover People</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 max-w-5xl mx-auto px-2 sm:px-4">
         {users.length === 0 ? (
           <p className="text-center text-gray-500 col-span-2 py-10">
             No users found to discover.

@@ -28,7 +28,7 @@ export default async function Feed() {
   // }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-4 md:space-y-6 px-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold">Feed</h1>
         <CreatePostDialog />

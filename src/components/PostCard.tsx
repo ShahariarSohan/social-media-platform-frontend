@@ -239,11 +239,17 @@ export default function PostCard({
         ) : (
           <Link href={`/post/${post.id}`}>
             <div className="px-4 pb-3">
-              <h3 className="font-semibold text-lg">{post.title}</h3>
-              <p className="text-gray-700">{post.content}</p>
+              <h3 className="font-semibold text-base md:text-lg">{post.title}</h3>
+              <p className="text-sm md:text-base text-gray-700">{post.content}</p>
             </div>
             {post.imageUrl && (
-              <img src={post.imageUrl} className="w-full h-96 object-cover" />
+              <div className="relative w-full overflow-hidden bg-gray-100">
+                <img 
+                  src={post.imageUrl} 
+                  className="w-full h-auto max-h-[500px] object-contain md:object-cover" 
+                  alt={post.title}
+                />
+              </div>
             )}
           </Link>
         )}

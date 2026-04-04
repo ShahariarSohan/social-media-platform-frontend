@@ -26,36 +26,46 @@ export default function UserProfileDetails({ profileUser, currentUser }: UserPro
     <div className="max-w-5xl mx-auto space-y-8">
       {/* PROFILE HEADER / COVER */}
       <div className="relative group">
-        <div className="h-48 md:h-64 rounded-xl bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 shadow-lg overflow-hidden relative">
-           <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] group-hover:backdrop-blur-0 transition-all duration-500"></div>
+        <div className="h-40 sm:h-56 md:h-64 lg:h-80 w-full relative group overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
+        {profileUser.coverImage ? (
+           <img 
+             src={profileUser.coverImage} 
+             alt="Cover" 
+             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+           />
+        ) : (
+           <div className="w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-x"></div>
+        )}
+        <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] group-hover:backdrop-blur-0 transition-all duration-500"></div>
+      </div>
+      
+      <div className="absolute -bottom-10 sm:-bottom-12 md:-bottom-16 left-3 sm:left-4 md:left-8 flex items-end gap-2 sm:gap-3 md:gap-6">
+        <div className="relative">
+          <div className="p-1 rounded-full bg-background ring-4 ring-background shadow-xl">
+            <Avatar className="h-20 w-20 sm:h-28 sm:w-28 md:h-32 md:w-32 border-2 border-inherit">
+              <AvatarImage src={profileUser.avatar || ""} />
+              <AvatarFallback className="text-xl sm:text-2xl md:text-3xl font-bold bg-muted">
+                {profileUser.username?.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </div>
         </div>
         
-        <div className="absolute -bottom-16 left-8 flex items-end gap-6">
-          <div className="relative">
-            <div className="p-1 rounded-full bg-background ring-4 ring-background shadow-xl">
-              <Avatar className="h-32 w-32 border-2 border-inherit">
-                <AvatarImage src={profileUser.avatar || ""} />
-                <AvatarFallback className="text-3xl font-bold bg-muted">
-                  {profileUser.username?.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-          
-          <div className="mb-4 space-y-1 hidden md:block">
-            <h1 className="text-3xl font-bold text-foreground drop-shadow-sm">{profileUser.username}</h1>
-            <p className="text-sm text-foreground/80 flex items-center gap-1 font-medium italic">
-                <Mail className="w-3 h-3" /> {profileUser.email}
-            </p>
-          </div>
+        <div className="mb-1 sm:mb-2 md:mb-4 space-y-0 sm:space-y-0.5 md:space-y-1 hidden sm:block">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground drop-shadow-sm">{profileUser.username}</h1>
+          <p className="text-[10px] sm:text-xs md:text-sm text-foreground/80 flex items-center gap-1 font-medium italic">
+              <Mail className="w-3 h-3" /> {profileUser.email}
+          </p>
         </div>
       </div>
+    </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-20 pt-10 px-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-14 sm:mt-16 md:mt-20 pt-6 md:pt-10 px-3 sm:px-4">
         {/* LEFT COLUMN: INFO & STATS */}
         <div className="lg:col-span-1 space-y-6">
           <Card className="border-none shadow-md bg-card/50 backdrop-blur-sm">
-            <CardContent className="p-6 space-y-6">
+            <CardContent className="p-4 md:p-6 space-y-6">
                <div className="md:hidden space-y-1 pb-4 border-b">
                  <h1 className="text-2xl font-bold">{profileUser.username}</h1>
                  <p className="text-sm text-muted-foreground flex items-center gap-1">
@@ -86,21 +96,21 @@ export default function UserProfileDetails({ profileUser, currentUser }: UserPro
 
               <Separator className="opacity-50" />
 
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="p-3 rounded-lg bg-secondary/30">
-                  <p className="text-xl font-bold text-primary">{profileUser.posts?.length || 0}</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 gap-2 text-center">
+                <div className="p-2 md:p-3 rounded-lg bg-secondary/30">
+                  <p className="text-lg md:text-xl font-bold text-primary">{profileUser.posts?.length || 0}</p>
                   <p className="text-[10px] uppercase font-semibold text-muted-foreground">Posts</p>
                 </div>
-                <div className="p-3 rounded-lg bg-secondary/30">
-                  <p className="text-xl font-bold text-primary">{profileUser.comments?.length || 0}</p>
+                <div className="p-2 md:p-3 rounded-lg bg-secondary/30">
+                  <p className="text-lg md:text-xl font-bold text-primary">{profileUser.comments?.length || 0}</p>
                   <p className="text-[10px] uppercase font-semibold text-muted-foreground">Comments</p>
                 </div>
-                <div className="p-3 rounded-lg bg-secondary/30">
-                  <p className="text-xl font-bold text-primary">{profileUser.likes?.length || 0}</p>
+                <div className="p-2 md:p-3 rounded-lg bg-secondary/30">
+                  <p className="text-lg md:text-xl font-bold text-primary">{profileUser.likes?.length || 0}</p>
                   <p className="text-[10px] uppercase font-semibold text-muted-foreground">Likes</p>
                 </div>
-                <div className="p-3 rounded-lg bg-secondary/30">
-                  <p className="text-xl font-bold text-primary">{profileUser.followers?.length || 0}</p>
+                <div className="p-2 md:p-3 rounded-lg bg-secondary/30">
+                  <p className="text-lg md:text-xl font-bold text-primary">{profileUser.followers?.length || 0}</p>
                   <p className="text-[10px] uppercase font-semibold text-muted-foreground">Followers</p>
                 </div>
               </div>
