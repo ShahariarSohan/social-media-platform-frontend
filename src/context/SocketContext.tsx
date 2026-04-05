@@ -20,13 +20,20 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const socketOrigin = new URL(apiUrl).origin;
+
+    const socketInstance = io(socketOrigin, {
       withCredentials: true,
     });
 
     socketInstance.on('connect', () => {
       console.log('⚡ Connected to Socket server');
       setIsConnected(true);
+    });
+
+    socketInstance.on('connect_error', (error) => {
+      console.error('❌ Socket connection error:', error);
     });
 
     socketInstance.on('disconnect', () => {

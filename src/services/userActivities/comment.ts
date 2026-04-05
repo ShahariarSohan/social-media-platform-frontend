@@ -15,6 +15,7 @@ export async function createComment(_prevState: any, formData: FormData) {
   const validationPayload = {
     content: formData.get("content") as string,
     postId: formData.get("postId") as string,
+    parentId: (formData.get("parentId") as string) || undefined,
   };
 
   const validated = zodValidator(validationPayload, createCommentZodSchema);
