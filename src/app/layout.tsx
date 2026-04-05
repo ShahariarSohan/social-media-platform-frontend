@@ -3,7 +3,6 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/src/lib/utils";
 import { Toaster } from "sonner";
-import { SocketProvider } from "@/src/context/SocketContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -32,10 +31,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SocketProvider>
-          {children}
-          <Toaster richColors position="top-right"></Toaster>
-        </SocketProvider>
+        {children}
+        <Toaster richColors position="top-right"></Toaster>
       </body>
     </html>
   );

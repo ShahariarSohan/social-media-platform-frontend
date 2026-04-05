@@ -14,6 +14,7 @@ export default async function Feed() {
   const user = await getUserInfo();
   const posts = await getFollowedFeed();
   const postsData = posts?.data as Post[];
+ 
 
   // if (loading) {
   //   return (

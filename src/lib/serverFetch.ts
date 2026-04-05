@@ -1,6 +1,5 @@
 import { getCookie } from "./tokenHandler";
 
-
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const serverFetchHelper = async (

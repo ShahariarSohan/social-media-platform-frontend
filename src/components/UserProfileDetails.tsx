@@ -10,7 +10,6 @@ import { format } from "date-fns";
 import PostCard from "./PostCard";
 import { Separator } from "./ui/separator";
 import FollowButton from "./FollowButton";
-import { createConversation } from "../services/userActivities/chat";
 
 import { useRouter } from "next/navigation";
 
@@ -26,16 +25,6 @@ export default function UserProfileDetails({ profileUser, currentUser }: UserPro
     (f: any) => f.followingId === profileUser.id
   );
 
-  const handleStartChat = async () => {
-    try {
-      const data = await createConversation(profileUser.id);
-      if (data.success) {
-        router.push(`/messages?id=${data.data.id}`);
-      }
-    } catch (error) {
-      console.error("Error starting chat:", error);
-    }
-  };
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">
@@ -138,14 +127,6 @@ export default function UserProfileDetails({ profileUser, currentUser }: UserPro
                       isFollowing={isCurrentlyFollowing} 
                     />
                   </div>
-                  <Button 
-                    variant="outline" 
-                    className="flex-1 gap-2 h-full rounded-xl font-semibold border-2 hover:bg-secondary/50 transition-all border-blue-100 text-blue-600 hover:text-blue-700"
-                    onClick={() => handleStartChat()}
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Message
-                  </Button>
                 </div>
               )}
             </CardContent>

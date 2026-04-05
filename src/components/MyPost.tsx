@@ -18,7 +18,7 @@ import getUserInfo from "../services/auth/getUserInfo";
 export default async function MyPosts() {
    const user = await getUserInfo();
    const posts=await getMyPosts();
-    const postsData=posts?.data as Post[]
+  const postsData = posts?.data as Post[]
 
   // const [posts, setPosts] = useState<Post[]>([]);
   // const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ export default async function MyPosts() {
       </div>
 
       <div className="space-y-6">
-        {posts.length === 0 ? (
+        {postsData?.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-500">
               No posts yet. Be the first to share something!

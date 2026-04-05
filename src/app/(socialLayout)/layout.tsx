@@ -3,9 +3,11 @@
 import React from "react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
 
 
-import { Home, PenSquare, MessageSquare } from "lucide-react";
+
+import { Home, PenSquare } from "lucide-react";
 
 import { Button } from "@/src/components/ui/button";
 
@@ -38,12 +40,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
                 <Button variant="ghost" size="sm" className="px-2 md:px-4">
                   <Home className="w-5 h-5 md:w-4 md:h-4 md:mr-2" />
                   <span className="hidden md:inline">Home</span>
-                </Button>
-              </Link>
-              <Link href="/messages">
-                <Button variant="ghost" size="sm" className="px-2 md:px-4">
-                  <MessageSquare className="w-5 h-5 md:w-4 md:h-4 md:mr-2" />
-                  <span className="hidden md:inline">Messages</span>
                 </Button>
               </Link>
               <UserDropdown user={user} />
